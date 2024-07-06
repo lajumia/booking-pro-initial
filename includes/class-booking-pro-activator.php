@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Booking_Pro
+ * @subpackage Booking_Pro/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    Booking_Pro
+ * @subpackage Booking_Pro/includes
+ * @author     Md Laju Miah
  */
-class Plugin_Name_Activator {
+class Booking_Pro_Activator {
 
 	/**
 	 * Short Description. (use period)
