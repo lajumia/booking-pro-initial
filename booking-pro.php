@@ -8,63 +8,51 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://github.com/lajumia/Booking-Pro
+ * @link              http://example.com
  * @since             1.0.0
- * @package           Booking Pro
+ * @package           Booking_Pro
  *
  * @wordpress-plugin
  * Plugin Name:       Booking Pro
- * Plugin URI:        https://github.com/lajumia/Booking-Pro
- * Description:       Simplify your bookings with BookingPro! Effortlessly manage appointments, reservations, and schedules with our user-friendly plugin. Enjoy automated reminders and seamless integration for a hassle-free experience. Perfect for businesses of all sizes!
+ * Plugin URI:        http://github.com/lajumia/Booking_Pro/
+ * Description:       Booking Pro is a powerful and easy-to-use WordPress plugin designed to manage appointments and reservations effortlessly. Whether you're running a hotel, salon, clinic, or any service-based business, Booking Pro streamlines the booking process with an intuitive interface, customizable booking forms, and automated notifications. Enhance your customer experience and maximize your bookings with Booking Pro.
  * Version:           1.0.0
  * Author:            Md Laju Miah
- * Author URI:        https://github.com/lajumia
+ * Author URI:        http://github.com/lajumia
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       booking-pro
  * Domain Path:       /languages
  */
 
-// If this file is called directly, Exit.
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-	
+	exit; 
 }
-
-
 
 /**
  * Currently plugin version.
- * Started at version 1.0.0 and used SemVer - https://semver.org
+ * Start at version 1.0.0 and use SemVer - https://semver.org
  * 
  */
 define( 'BOOKING_PRO_VERSION', '1.0.0' );
-
-/**
- * List of constant for Booking Pro plugin
- *
- */
-define( 'BOOKING_PRO_PATH', plugin_dir_path( __FILE__ ));
-define('BOOKING_PRO_URL', plugin_dir_url( __FILE__ ));
-
-
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-booking-pro-activator.php
  */
 function activate_booking_pro() {
-	require_once BOOKING_PRO_PATH . 'includes/class-booking-pro-activator.php';
-	Booking_Pro_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-booking-pro-activator.php';
+	Booking_Pro_Activator::booking_pro_create_tables();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-booking-pro-deactivator.php
+ * This action is documented in includes/class-plugin-name-deactivator.php
  */
 function deactivate_booking_pro() {
-	require_once BOOKING_PRO_PATH . 'includes/class-booking-pro-deactivator.php';
-	Booking_Pro_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-booking-pro-deactivator.php';
+	Booking_Pro_Deactivator::booking_pro_drop_tables();
 }
 
 register_activation_hook( __FILE__, 'activate_booking_pro' );
@@ -74,7 +62,7 @@ register_deactivation_hook( __FILE__, 'deactivate_booking_pro' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require BOOKING_PRO_PATH . 'includes/class-booking-pro.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-booking-pro.php';
 
 /**
  * Begins execution of the plugin.
@@ -87,11 +75,8 @@ require BOOKING_PRO_PATH . 'includes/class-booking-pro.php';
  */
 function run_booking_pro() {
 
-	$booking_pro = new Booking_Pro();
-	$booking_pro->run();
+	$plugin = new Booking_Pro();
+	$plugin->run();
 
 }
 run_booking_pro();
-
-
-

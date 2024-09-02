@@ -1,0 +1,32 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ * bp is a prefix for booking pro
+ */
+body {
+  background: #f0f0f1;
+}
+.wrap {
+  border: 1px solid #dce4f5;
+  background: white;
+  border-radius: 10px;
+  padding: 40px 15px 100px;
+}
+.bp-title {
+  font-size: 25px;
+}
+.bp-text {
+  font-size: 14px;
+  color: #727e95;
+  font-weight: 400;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  border: 1px solid #dce4f5 !important;
+  border-radius: 5px !important;
+  background-color: transparent !important;
+  padding: 0px 20px !important;
+}
+/* table#customers-table {
+  margin-top: 60px;
+} */

@@ -20,9 +20,9 @@
  * so that it is ready for translation.
  *
  * @since      1.0.0
- * @package    Booking_Pro
- * @subpackage Booking_Pro/includes
- * @author     Md Laju Miah
+ * @package    Plugin_Name
+ * @subpackage Plugin_Name/includes
+ * @author     Your Name <email@example.com>
  */
 class Booking_Pro_i18n {
 
@@ -32,7 +32,7 @@ class Booking_Pro_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_booking_pro_textdomain() {
+	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
 			'booking-pro',

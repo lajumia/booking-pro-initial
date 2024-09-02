@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://github.com/lajumia/Booking-Pro
+ * @link       http://example.com
  * @since      1.0.0
  *
  * @package    Booking_Pro
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Booking_Pro
  * @subpackage Booking_Pro/includes
- * @author     Md Laju Miah
+ * @author     developerlaju <email@gmail.com>
  */
 class Booking_Pro {
 
@@ -35,27 +35,27 @@ class Booking_Pro {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Booking_Pro_Loader    $booking_pro_loader    Maintains and registers all hooks for the plugin.
+	 * @var      Booking_Pro_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
-	protected $booking_pro_loader;
+	protected $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $booking_pro_identifier    The string used to uniquely identify this plugin.
+	 * @var      string    $booking_pro    The string used to uniquely identify this plugin.
 	 */
-	protected $booking_pro_identifier;
+	protected $booking_pro;
 
 	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $booking_pro_version    The current version of the plugin.
+	 * @var      string    $version    The current version of the plugin.
 	 */
-	protected $booking_pro_version;
+	protected $version;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -67,12 +67,12 @@ class Booking_Pro {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'BOOKING_PRO_VERSION' ) ) {
-			$this->booking_pro_version = BOOKING_PRO_VERSION;
+		if ( defined( 'Booking_Pro_VERSION' ) ) {
+			$this->version = Booking_Pro_VERSION;
 		} else {
-			$this->booking_pro_version = '1.0.0';
+			$this->version = '1.0.0';
 		}
-		$this->booking_pro_identifier  = 'booking-pro ';
+		$this->booking_pro = 'booking-pro';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -103,33 +103,33 @@ class Booking_Pro {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once BOOKING_PRO_PATH . 'includes/class-booking-pro-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-booking-pro-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once BOOKING_PRO_PATH . 'includes/class-booking-pro-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-booking-pro-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once BOOKING_PRO_PATH . 'admin/class-booking-pro-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-booking-pro-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once BOOKING_PRO_PATH . 'public/class-booking-pro-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-booking-pro-public.php';
 
-		$this->booking_pro_loader = new Booking_Pro_Loader();
+		$this->loader = new Booking_Pro_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Booking_Pro_i18n class in order to set the domain and to register the hook
+	 * Uses the Plugin_Name_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -139,7 +139,7 @@ class Booking_Pro {
 
 		$booking_pro_i18n = new Booking_Pro_i18n();
 
-		$this->booking_pro_loader->add_action( 'plugins_loaded', $booking_pro_i18n, 'load_booking_pro_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $booking_pro_i18n, 'load_plugin_textdomain' );
 
 	}
 
@@ -152,10 +152,10 @@ class Booking_Pro {
 	 */
 	private function define_admin_hooks() {
 
-		$booking_pro_admin = new Booking_Pro_Admin( $this->get_booking_pro(), $this->get_booking_pro_version() );
+		$booking_pro_admin = new Booking_Pro_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->booking_pro_loader->add_action( 'admin_enqueue_scripts', $booking_pro_admin, 'enqueue_styles' );
-		$this->booking_pro_loader->add_action( 'admin_enqueue_scripts', $booking_pro_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $booking_pro_admin, 'booking_pro_enqueue_scripts' );
+		$this->loader->add_action('admin_menu', $booking_pro_admin, 'booking_pro_admin_menu');
 
 	}
 
@@ -168,10 +168,10 @@ class Booking_Pro {
 	 */
 	private function define_public_hooks() {
 
-		$booking_pro_public = new Booking_Pro_Public( $this->get_booking_pro(), $this->get_booking_pro_version() );
+		$booking_pro_public = new Booking_Pro_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->booking_pro_loader->add_action( 'wp_enqueue_scripts', $booking_pro_public, 'enqueue_styles' );
-		$this->booking_pro_loader->add_action( 'wp_enqueue_scripts', $booking_pro_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $booking_pro_public, 'booking_pro_enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $booking_pro_public, 'booking_pro_enqueue_scripts' );
 
 	}
 
@@ -181,7 +181,7 @@ class Booking_Pro {
 	 * @since    1.0.0
 	 */
 	public function run() {
-		$this->booking_pro_loader->run();
+		$this->loader->run();
 	}
 
 	/**
@@ -191,8 +191,8 @@ class Booking_Pro {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_booking_pro() {
-		return $this->booking_pro_identifier;
+	public function get_plugin_name() {
+		return $this->booking_pro;
 	}
 
 	/**
@@ -202,7 +202,7 @@ class Booking_Pro {
 	 * @return    Booking_Pro_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
-		return $this->booking_pro_loader;
+		return $this->loader;
 	}
 
 	/**
@@ -211,8 +211,8 @@ class Booking_Pro {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_booking_pro_version() {
-		return $this->booking_pro_version;
+	public function get_version() {
+		return $this->version;
 	}
 
 }
