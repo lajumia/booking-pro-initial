@@ -54,50 +54,41 @@ class Booking_Pro_Public {
 
 	}
 
-	/**
-	 * Register the stylesheets for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
-	public function  booking_pro_enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->booking_pro, plugin_dir_url( __FILE__ ) . 'css/plugin-name-public.css', array(), $this->version, 'all' );
-
-	}
-
-	/**
-	 * Register the JavaScript for the public-facing side of the site.
-	 *
-	 * @since    1.0.0
-	 */
 	public function booking_pro_enqueue_scripts() {
 
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
 		 */
-
-		wp_enqueue_script( $this->booking_pro, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_style('bootstrap-css', plugin_dir_url( __FILE__ ) . 'css/bootstrap.min.css', array(), $this->version, 'all');
+		wp_enqueue_script('bootstrap-js', plugin_dir_url( __FILE__ ) . 'js/bootstrap.min.js', array( 'jquery' ), $this->version, true);
+		//wp_enqueue_script( $this->booking_pro, plugin_dir_url( __FILE__ ) . 'js/plugin-name-public.js', array( 'jquery' ), $this->version, false );
 
 	}
+
+	//Register shortcode for booking form
+	public function booking_pro_register_shortcode() {
+
+		add_shortcode('booking_pro_form', 'booking_pro_form_shortcode');
+		function booking_pro_form_shortcode() {
+			ob_start();
+			include(plugin_dir_path(__FILE__) . 'form/booking-pro-form.php');
+		
+			return ob_get_clean();
+		}
+
+
+		//Thank you page shortcode
+		add_shortcode('thank_you_page', 'thank_you_page_shortcode');
+		function thank_you_page_shortcode() {
+			ob_start();
+			include(plugin_dir_path(__FILE__) . 'partials/thank-you-page.php');
+
+			return ob_get_clean();
+		}
+	}//booking_pro_register_shortcode function end
+
+
 
 }

@@ -88,11 +88,11 @@ if(!class_exists('Booking_Pro_Admin')) {
 
 		 if (in_array($hook_suffix, $pages)) {
 			// Enqueue Bootstrap CSS
-			wp_enqueue_style('bootstrap-css', plugin_dir_url(__FILE__) . 'css/bootstrap.min.css');
+			wp_enqueue_style('bootstrap-css', plugin_dir_url(__FILE__) . 'css/bootstrap.min.css');//bundle.css
 			wp_enqueue_style('booking-pro-admin-css', plugin_dir_url(__FILE__) . 'css/booking-pro-admin.css');
 			
 			// Enqueue Bootstrap JS
-			wp_enqueue_script('bootstrap-js', plugin_dir_url(__FILE__) . 'js/bootstrap.min.js', array('jquery'), null, true);
+			wp_enqueue_script('bootstrap-js', plugin_dir_url(__FILE__) . 'js/bootstrap.min.js', array('jquery'), null, true);//bundle.js
 			wp_enqueue_script('booking-pro-admin-js', plugin_dir_url(__FILE__) . 'js/booking-pro-admin.js', array('jquery'), null, true);
 			
 		}

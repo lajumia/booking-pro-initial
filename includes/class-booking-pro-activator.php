@@ -29,7 +29,16 @@ class Booking_Pro_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function booking_pro_create_tables() {
+
+
+	 public function __construct() {
+        //$this-> booking_pro_register_shortcode();
+		$this-> booking_pro_create_tables();
+		$this-> bp_create_booking_pro_form_page();
+		$this-> bp_create_booking_pro_thank_you_page();
+    }
+
+	public function booking_pro_create_tables() {
 		global $wpdb;
 	
 		// SQL commands to create the tables
@@ -68,10 +77,7 @@ class Booking_Pro_Activator {
 		  `duration` int(11) NOT NULL,
 		  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
 		  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-		  `provider_id` int(11) DEFAULT NULL,
-		  PRIMARY KEY (`service_id`),
-		  KEY `provider_id` (`provider_id`),
-		  CONSTRAINT `booking_pro_services_ibfk_1` FOREIGN KEY (`provider_id`) REFERENCES `{$wpdb->prefix}booking_pro_service_providers` (`provider_id`) ON DELETE SET NULL
+		  PRIMARY KEY (`service_id`) 
 		) $charset_collate;
 
 		CREATE TABLE `{$wpdb->prefix}booking_pro_availability` (
@@ -89,20 +95,18 @@ class Booking_Pro_Activator {
 	
 		CREATE TABLE `{$wpdb->prefix}booking_pro_bookings` (
 		  `booking_id` int(11) NOT NULL AUTO_INCREMENT,
-		  `user_id` int(11) DEFAULT NULL,
+		  `name` varchar(100) NOT NULL,
+		  `phone` varchar(100) NOT NULL,
+		  `email` varchar(100) NOT NULL,
 		  `service_id` int(11) DEFAULT NULL,
-		  `availability_id` int(11) DEFAULT NULL,
+		  `provider_id` int(11) DEFAULT NULL,
 		  `booking_date` date NOT NULL,
-		  `status` enum('pending','confirmed','canceled') DEFAULT 'pending',
+		  `booking_time` varchar(100) NOT NULL,
+		  `status` enum('pending','confirmed','completed','canceled') DEFAULT 'pending',
 		  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
 		  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-		  PRIMARY KEY (`booking_id`),
-		  KEY `user_id` (`user_id`),
-		  KEY `service_id` (`service_id`),
-		  KEY `availability_id` (`availability_id`),
-		  CONSTRAINT `booking_pro_bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `{$wpdb->prefix}booking_pro_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT `booking_pro_bookings_ibfk_2` FOREIGN KEY (`service_id`) REFERENCES `{$wpdb->prefix}booking_pro_services` (`service_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-		  CONSTRAINT `booking_pro_bookings_ibfk_3` FOREIGN KEY (`availability_id`) REFERENCES `{$wpdb->prefix}booking_pro_availability` (`availability_id`) ON DELETE CASCADE ON UPDATE CASCADE
+		  PRIMARY KEY (`booking_id`)
+		  
 		) $charset_collate;
 	
 		CREATE TABLE `{$wpdb->prefix}booking_pro_booking_logs` (
@@ -146,6 +150,56 @@ class Booking_Pro_Activator {
 
 
 	}//booking_pro_create_tables function end
+
+	
+	//Register booking pro form page
+	public function bp_create_booking_pro_form_page() {
+		// Check if the page already exists to avoid duplication
+		$page_title = 'Booking Pro Form';
+		$page_check = get_page_by_title($page_title);
+		
+		if (!isset($page_check->ID)) {
+			// Page content
+			$page_content = '[booking_pro_form]'; // You can put your shortcode or form HTML here
+	
+			// Set up the page parameters
+			$page = array(
+				'post_title'    => $page_title,
+				'post_content'  => $page_content,
+				'post_status'   => 'publish',
+				'post_type'     => 'page',
+				'post_author'   => 1, // Usually, admin is the author
+			);
+			
+			// Insert the page into the database
+			wp_insert_post($page);
+		}
+	}
+
+	//Register thank you page template
+	public function bp_create_booking_pro_thank_you_page(){
+		$page_title = 'Booking Pro Thank You';
+		$page_check = get_page_by_title($page_title);
+
+
+			if (!isset($page_check->ID)) {
+				// Page content
+				$page_content = '[thank_you_page]'; // You can put your shortcode or form HTML here
+
+				// Set up the page parameters
+				$page = array(
+					'post_title'    => $page_title,
+					'post_content'  => $page_content,
+					'post_status'   => 'publish',
+					'post_type'     => 'page',
+					'post_author'   => 1, // Usually, admin is the author
+				);
+
+				// Insert the page into the database
+				wp_insert_post($page);
+			}
+
+	}
 	
 	
 

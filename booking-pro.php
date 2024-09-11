@@ -43,7 +43,7 @@ define( 'BOOKING_PRO_VERSION', '1.0.0' );
  */
 function activate_booking_pro() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-booking-pro-activator.php';
-	Booking_Pro_Activator::booking_pro_create_tables();
+	new Booking_Pro_Activator();
 }
 
 /**
